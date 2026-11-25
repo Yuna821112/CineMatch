@@ -22,7 +22,28 @@ class MovieRecommendationSystem:
         print(f"Top {N} movies based on rating:")
         for movie in top_movies:
             print(f"Title: {movie['title']}, Genre: {movie['genre']}, Rating: {movie['rating']}")
+    
+    def recommend_by_genre(self, genre):
+        genre_movies = []
 
+        for movie in self.movies:
+            if movie['genre'].lower() == genre.lower():
+                genre_movies.append(movie)
+
+        if genre_movies:
+            sorted_movies = sorted(
+                genre_movies,
+                key=lambda x: x['rating'],
+                reverse=True
+            )
+
+            print(f"Top 3 movies in {genre}:")
+
+            for movie in sorted_movies[:3]:
+                print(f"Title: {movie['title']}, Rating: {movie['rating']}")
+        else:
+            print(f"No movies found in {genre}.")
+    
     def delete_movie(self, title):
         for movie in self.movies:
             if movie['title'].lower() == title.lower():
@@ -54,14 +75,54 @@ if __name__ == "__main__":
     system.add_movie("The Green Mile", "Drama", 8.6)
     system.add_movie("Gladiator", "Action", 8.5)
     system.add_movie("The Lion King", "Animation", 8.5)
+    # Additional movies for genre-based recommendations
+    system.add_movie("The Pursuit of Happyness", "Drama", 8.0)
 
+    system.add_movie("John Wick", "Action", 7.4)
+    system.add_movie("Top Gun: Maverick", "Action", 8.2)
+    system.add_movie("Die Hard", "Action", 8.2)
+
+    system.add_movie("The Departed", "Crime", 8.5)
+
+    system.add_movie("Harry Potter and the Sorcerer's Stone", "Fantasy", 7.6)
+    system.add_movie("The Hobbit", "Fantasy", 7.8)
+
+    system.add_movie("Arrival", "Sci-Fi", 7.9)
+
+    system.add_movie("Coco", "Animation", 8.4)
+    system.add_movie("Inside Out", "Animation", 8.1)
+    system.add_movie("Finding Nemo", "Animation", 8.2)
+
+    system.add_movie("1917", "War", 8.2)
+    system.add_movie("Dunkirk", "War", 7.8)
+    system.add_movie("Hacksaw Ridge", "War", 8.1)
+    system.add_movie("Fury", "War", 7.6)
+
+    system.add_movie("The Shining", "Horror", 8.4)
+    system.add_movie("The Conjuring", "Horror", 7.5)
+    system.add_movie("Insidious", "Horror", 6.8)
+    system.add_movie("Get Out", "Horror", 7.8)
+    system.add_movie("A Quiet Place", "Horror", 7.5)
+
+    system.add_movie("The Hangover", "Comedy", 7.7)
+    system.add_movie("Home Alone", "Comedy", 7.7)
+    system.add_movie("Mean Girls", "Comedy", 7.1)
+    system.add_movie("Mrs. Doubtfire", "Comedy", 7.1)
+    system.add_movie("The Intern", "Comedy", 7.1)
+
+    system.add_movie("Titanic", "Romance", 7.9)
+    system.add_movie("The Notebook", "Romance", 7.8)
+    system.add_movie("Pride and Prejudice", "Romance", 7.8)
+    system.add_movie("La La Land", "Romance", 8.0)
+    system.add_movie("Notting Hill", "Romance", 7.2)
     while True:
         print("\nMovie Recommendation System")
         print("1. Add a new movie")
         print("2. Search for movies by title or genre")
         print("3. Recommend top N movies based on rating")
         print("4. Delete a movie")
-        print("5. Exit")
+        print("5. Recommend top 3 movies by genre")
+        print("6. Exit")
         
         choice = input("Enter your choice: ")
 
@@ -78,9 +139,12 @@ if __name__ == "__main__":
             system.recommend_top_movies(N)
         elif choice == "4":
             title = input("Enter the title of the movie to delete: ")
-            system.delete_movie(title)
         elif choice == "5":
+            genre = input("Enter your preferred genre: ")
+            system.recommend_by_genre(genre)
+        elif choice == "6":
             print("Exiting the system.")
             break
         else:
+            print("Invalid choice. Please enter a number between 1 and 6.")
             print("Invalid choice. Please enter a number between 1 and 5.")
