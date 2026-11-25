@@ -1,3 +1,5 @@
+import random
+
 class MovieRecommendationSystem:
     def __init__(self):
         self.movies = []
@@ -78,7 +80,13 @@ class MovieRecommendationSystem:
                 return
 
         print("Movie not found in your watchlist.")
-
+    def recommend_random_movie(self):
+        if self.movies:
+            movie = random.choice(self.movies)
+            print("Random Movie Recommendation:")
+            print(f"Title: {movie['title']}, Genre: {movie['genre']}, Rating: {movie['rating']}")
+        else:
+            print("No movies available.")
 # Example usage:
 if __name__ == "__main__":
 
@@ -153,7 +161,8 @@ if __name__ == "__main__":
         print("6. Add a movie to my watchlist")
         print("7. View my watchlist")
         print("8. Remove a movie from my watchlist")
-        print("9. Exit")
+        print("9. Random movie recommendation")
+        print("10. Exit")
         
         choice = input("Enter your choice: ")
 
@@ -183,8 +192,9 @@ if __name__ == "__main__":
             title = input("Enter movie title to remove: ")
             system.remove_from_watchlist(title)
         elif choice == "9":
+            system.recommend_random_movie()
+        elif choice == "10":
             print("Exiting the system.")
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 9.")
-        
+            print("Invalid choice. Please enter a number between 1 and 10.")
