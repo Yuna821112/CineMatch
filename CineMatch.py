@@ -1,7 +1,7 @@
 class MovieRecommendationSystem:
     def __init__(self):
         self.movies = []
-
+        self.watchlist = []
     def add_movie(self, title, genre, rating):
         movie = {'title': title, 'genre': genre, 'rating': rating}
         self.movies.append(movie)
@@ -51,9 +51,37 @@ class MovieRecommendationSystem:
                 print(f"Movie '{title}' deleted successfully.")
                 return
         print(f"No movie found with title '{title}'.")
+    def add_to_watchlist(self, title):
+        for movie in self.movies:
+            if movie['title'].lower() == title.lower():
+                if movie in self.watchlist:
+                    print("This movie is already in your watchlist.")
+                else:
+                    self.watchlist.append(movie)
+                    print(f"'{movie['title']}' added to your watchlist.")
+                return
+
+        print("Movie not found.")
+    def view_watchlist(self):
+        if not self.watchlist:
+            print("Your watchlist is empty.")
+        else:
+            print("My Personal Watchlist:")
+            for movie in self.watchlist:
+                print(f"Title: {movie['title']}, Genre: {movie['genre']}, Rating: {movie['rating']}")
+
+    def remove_from_watchlist(self, title):
+        for movie in self.watchlist:
+            if movie['title'].lower() == title.lower():
+                self.watchlist.remove(movie)
+                print(f"'{movie['title']}' removed from your watchlist.")
+                return
+
+        print("Movie not found in your watchlist.")
 
 # Example usage:
 if __name__ == "__main__":
+
     system = MovieRecommendationSystem()
     system.add_movie("The Shawshank Redemption", "Drama", 9.3)
     system.add_movie("The Godfather", "Crime", 9.2)
@@ -122,7 +150,10 @@ if __name__ == "__main__":
         print("3. Recommend top N movies based on rating")
         print("4. Delete a movie")
         print("5. Recommend top 3 movies by genre")
-        print("6. Exit")
+        print("6. Add a movie to my watchlist")
+        print("7. View my watchlist")
+        print("8. Remove a movie from my watchlist")
+        print("9. Exit")
         
         choice = input("Enter your choice: ")
 
@@ -139,12 +170,21 @@ if __name__ == "__main__":
             system.recommend_top_movies(N)
         elif choice == "4":
             title = input("Enter the title of the movie to delete: ")
+            system.delete_movie(title)
         elif choice == "5":
             genre = input("Enter your preferred genre: ")
             system.recommend_by_genre(genre)
         elif choice == "6":
+            title = input("Enter movie title: ")
+            system.add_to_watchlist(title)
+        elif choice == "7":
+            system.view_watchlist()
+        elif choice == "8":
+            title = input("Enter movie title to remove: ")
+            system.remove_from_watchlist(title)
+        elif choice == "9":
             print("Exiting the system.")
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 6.")
-            print("Invalid choice. Please enter a number between 1 and 5.")
+            print("Invalid choice. Please enter a number between 1 and 9.")
+        
